@@ -2,13 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Card from "./components/Card";
+import Loading from "./components/Loading";
 
 function App() {
   document.title = "Wheater App";
 
   const [cord, setCord] = useState({});
 
-  const [dataw, setDataW] = useState({}, []);
+  const [dataw, setDataW] = useState({});
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const succes = (pos) => {
@@ -35,15 +38,15 @@ function App() {
           let error = err.error;
           setDataW(error);
         });
+
+      setLoading(false);
     }
   }, [cord]);
 
   console.log(dataw);
 
   return (
-    <div className="App">
-      <Card dataw={dataw} />
-    </div>
+    <div className="App">{loading ? <Loading /> : <Card dataw={dataw} />}</div>
   );
 }
 
